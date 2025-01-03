@@ -1,7 +1,10 @@
+using CineBucket.ExtensoesConfiguracao;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.AddConfiguration();
 
 var app = builder.Build();
 
