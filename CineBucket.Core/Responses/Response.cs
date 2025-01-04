@@ -14,13 +14,13 @@ namespace CineBucket.Core.Responses
 
         public Response(TData? data, int code = ConfiguracoesGerais.DefaultStatusCode, string? message = null)
         {
-            Data = data;
+            Results = data;
             Message = message;
             _code = code;
         }
 
         private readonly int _code;
-        public TData? Data { get; set; }
+        public TData? Results { get; set; }
         public string? Message { get; set; } = string.Empty;
         [JsonIgnore]
         public bool IsSuccess => _code is >= 200 and <= 299;
