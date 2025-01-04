@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using CineBucket.Core.Services;
 using CineBucket.Models;
+using CineBucket.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CineBucket.Controllers
@@ -9,10 +10,12 @@ namespace CineBucket.Controllers
     {
         private readonly ILogger<MoviesController> _logger;
         private readonly IServiceTMDBExternalApi _serviceTMDBExternalApi;
-        public MoviesController(ILogger<MoviesController> logger, IServiceTMDBExternalApi serviceTMDBExternalApi)
+        private readonly IServiceFavoriteMovie _serviceFavoriteMovie; 
+        public MoviesController(ILogger<MoviesController> logger, IServiceTMDBExternalApi serviceTMDBExternalApi, ServiceFavoriteMovie serviceFavoriteMovie)
         {
             _serviceTMDBExternalApi = serviceTMDBExternalApi;
             _logger = logger;
+            _serviceFavoriteMovie = serviceFavoriteMovie;
         }
 
         public async Task<IActionResult> Index(int page = 1)
@@ -50,6 +53,7 @@ namespace CineBucket.Controllers
         [HttpPost]
         public IActionResult AddToList(int movieId, int priority)
         {
+            
 
             return RedirectToAction("Index", "Movies"); 
         }
