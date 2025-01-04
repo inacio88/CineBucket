@@ -11,6 +11,6 @@ namespace CineBucket.Models
         public string? Status { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public int Priority { get; set; }
-        public DateTime AddedAt { get; set; } = DateTime.UtcNow;
+        public DateTime AddedAt { get; set; } = DateTime.Now.ToUniversalTime();
     }
 }

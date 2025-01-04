@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using CineBucket.Core.Services;
+using CineBucket.Data;
 using CineBucket.Models;
 using CineBucket.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +11,17 @@ namespace CineBucket.Controllers
     {
         private readonly ILogger<MoviesController> _logger;
         private readonly IServiceTMDBExternalApi _serviceTMDBExternalApi;
-        private readonly IServiceFavoriteMovie _serviceFavoriteMovie; 
+        private readonly IServiceFavoriteMovie _serviceFavoriteMovie;
+        private AppDbContext _context;
         public MoviesController(ILogger<MoviesController> logger, 
             IServiceTMDBExternalApi serviceTMDBExternalApi, 
-            IServiceFavoriteMovie serviceFavoriteMovie)
+            //IServiceFavoriteMovie serviceFavoriteMovie,
+            AppDbContext context)
         {
             _serviceTMDBExternalApi = serviceTMDBExternalApi;
             _logger = logger;
-            _serviceFavoriteMovie = serviceFavoriteMovie;
+            //_serviceFavoriteMovie = serviceFavoriteMovie;
+            _context = context;
         }
 
         public async Task<IActionResult> Index(int page = 1)
@@ -33,7 +37,7 @@ namespace CineBucket.Controllers
             }
         }
 
-        public async Task<IActionResult> AddToBookmark(int movieId)
+        public async Task<IActionResult> DetailFullMovie(int movieId)
         {
             
             try
@@ -53,18 +57,45 @@ namespace CineBucket.Controllers
             }
         }
         [HttpPost]
-        public IActionResult AddToList(int movieId, int priority)
+        public async Task<IActionResult> AddToList(int movieId, int priority)
         {
+            var fullMovie = await _serviceTMDBExternalApi.GetMovieByIdAsync(movieId);
+            if (fullMovie is null)
+                return null;
+        
             try
             {
-                _serviceFavoriteMovie.CreateAsync(movieId, priority);
-                return RedirectToAction("FavMoviesList", "Movies"); 
+                var favmovie = new FavoriteMovie
+                    {
+                        Title = fullMovie.Title,
+                        OriginalTitle = fullMovie.OriginalTitle,
+                        Runtime = fullMovie.Runtime,
+                        PosterPath = fullMovie.PosterPath,
+                        ReleaseDate = fullMovie.ReleaseDate.ToUniversalTime(),
+                        Status = fullMovie.Status,
+                        Priority = priority,
+                        TmdbId = movieId,
+                        AddedAt = DateTime.Now.ToUniversalTime()
+                    }
+                    ;
+                await  _context.FavoriteMovies.AddAsync(favmovie);
+                await _context.SaveChangesAsync();
             }
-            catch(Exception ex)
+            catch
             {
-                _logger.LogError(ex, "Erro  ao adicionar à lista");
-                return RedirectToAction("Error", "Movies");
+                return null;
             }
+            return RedirectToAction("Index", "Movies"); 
+            // try
+            // {
+            //     _serviceFavoriteMovie.CreateAsync(movieId, priority);
+            //     return RedirectToAction("FavMoviesList", "Movies"); 
+            // }
+            // catch(Exception ex)
+            // {
+            //     _logger.LogError(ex, "Erro  ao adicionar à lista");
+            //     return RedirectToAction("Error", "Movies");
+            // }
             
         }
         
@@ -72,11 +103,11 @@ namespace CineBucket.Controllers
         {
             try
             {
-                var movies = await _serviceFavoriteMovie.GetAllAsync();
-                if(movies is null)
-                    return RedirectToAction("Error", "Movies");
+                // var movies = await _serviceFavoriteMovie.GetAllAsync();
+                // if(movies is null)
+                //     return RedirectToAction("Error", "Movies");
 
-                return View(movies);
+                return RedirectToAction("Index", "Movies");
             }
             catch
             {

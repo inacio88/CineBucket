@@ -4,19 +4,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CineBucket.Repositories;
 
-public class FavoriteMovieRepo(AppDbContext context) : IFavoriteMovieRepo
+public class FavoriteMovieRepo : IFavoriteMovieRepo
 {
+    private AppDbContext _context;
+    public FavoriteMovieRepo(AppDbContext context)
+    {
+        _context = context;
+    }
     public async Task<FavoriteMovie?> CreateAsync(FavoriteMovie favoriteMovie)
     {
         try
         {
-            await context.FavoriteMovies.AddAsync(favoriteMovie);
-            await context.SaveChangesAsync();
+            await  _context.FavoriteMovies.AddAsync(favoriteMovie);
+            await _context.SaveChangesAsync();
             return favoriteMovie;
         }
-        catch
+        catch(Exception ex)
         {
-            return null;
+            var aa = ex.Message;
+            throw new Exception(aa);
         }
     }
 
@@ -31,7 +37,7 @@ public class FavoriteMovieRepo(AppDbContext context) : IFavoriteMovieRepo
             movie.Priority = favoriteMovie.Priority;
             movie.AddedAt = DateTime.UtcNow;
 
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return movie;
         }
@@ -45,7 +51,7 @@ public class FavoriteMovieRepo(AppDbContext context) : IFavoriteMovieRepo
     {
         try
         {
-            return await context.FavoriteMovies
+            return await _context.FavoriteMovies
                         .AsNoTracking()
                         .FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -63,8 +69,8 @@ public class FavoriteMovieRepo(AppDbContext context) : IFavoriteMovieRepo
             if (movie is null)
                 return null;
 
-            context.FavoriteMovies.Remove(movie);
-            await context.SaveChangesAsync();
+            _context.FavoriteMovies.Remove(movie);
+            await _context.SaveChangesAsync();
             return movie;
         }
         catch
@@ -77,7 +83,7 @@ public class FavoriteMovieRepo(AppDbContext context) : IFavoriteMovieRepo
     {
         try
         {
-            return await context.FavoriteMovies
+            return await _context.FavoriteMovies
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.TmdbId == tmdbId);
         }
@@ -91,7 +97,7 @@ public class FavoriteMovieRepo(AppDbContext context) : IFavoriteMovieRepo
     {
         try
         {
-            var movies = await context.FavoriteMovies
+            var movies = await _context.FavoriteMovies
                 .AsNoTracking()
                 .ToListAsync();
             

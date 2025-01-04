@@ -19,7 +19,7 @@ namespace CineBucket.ExtensoesConfiguracao
         }
         public static void AddDatabaseContext(this WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContextPool<AppDbContext>(options => 
+            builder.Services.AddDbContext<AppDbContext>(options => 
                 options.UseNpgsql(ConfiguracoesGerais.ConnectionString)
                 );
         }
@@ -32,16 +32,16 @@ namespace CineBucket.ExtensoesConfiguracao
                 client.Timeout = TimeSpan.FromSeconds(30);
             });
         }
-        
+        public static void AddRepos(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IFavoriteMovieRepo, FavoriteMovieRepo>();
+        }
         public static void AddServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IServiceTMDBExternalApi, ServiceTMDBExternalApi>();
-            builder.Services.AddScoped<IServiceFavoriteMovie, ServiceFavoriteMovie>();
+            //builder.Services.AddScoped<IServiceFavoriteMovie, ServiceFavoriteMovie>();
         }
-        public static void AddRepos(this WebApplicationBuilder builder)
-        {
-            builder.Services.AddTransient<IFavoriteMovieRepo, FavoriteMovieRepo>();
-        }
+        
 
     }
 }

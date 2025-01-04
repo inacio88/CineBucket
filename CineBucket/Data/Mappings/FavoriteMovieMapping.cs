@@ -54,7 +54,7 @@ public class FavoriteMovieMapping : IEntityTypeConfiguration<FavoriteMovie>
         
         builder.Property(x => x.AddedAt)
             .IsRequired(true)  
-            .HasColumnType("TIMESTAMP");  
+            .HasColumnType("TIMESTAMPTZ");  
 
         
     }

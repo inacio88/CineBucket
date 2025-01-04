@@ -40,7 +40,8 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo, IServiceTMDBExternalA
     {
         try
         {
-            return await repo.GetAllAsync();
+            //return await repo.GetAllAsync();
+            return new List<FavoriteMovie>();
         }
         catch
         {
