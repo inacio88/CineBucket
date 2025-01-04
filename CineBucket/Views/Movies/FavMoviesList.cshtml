@@ -17,7 +17,9 @@
         <tr>
             <th>Poster</th>
             <th>Título</th>
-            <th>Lançamento</th>
+            <th>Adicionado em</th>
+            <th>Duração</th>
+            <th>Prioridade</th>
         </tr>
     </thead>
     <tbody>
@@ -36,8 +38,15 @@
                     </td>
                     <td>@mov.Title</td>
                     <td>
-                        @mov.ReleaseDate?.ToString("dd/mm/yyyy")
+                        @mov.AddedAt.ToString("dd/mm/yyyy")
                     </td>
+                    @{
+                        int runtimeInMinutes = mov?.Runtime ?? 0;
+                        int hours = runtimeInMinutes / 60;
+                        int minutes = runtimeInMinutes % 60;
+                        <td>@($"{hours}h{minutes}m")</td>
+                    }
+                    <td>@mov?.Priority</td>
                 </tr>
             }
         </tbody>
