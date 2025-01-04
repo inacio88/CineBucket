@@ -18,13 +18,13 @@ public class FavoriteMovieMapping : IEntityTypeConfiguration<FavoriteMovie>
         builder.Property(x => x.Title)
             .IsRequired(true)  
             .HasColumnType("NVARCHAR")  
-            .HasMaxLength(255);  
+            .HasMaxLength(60);  
 
         
         builder.Property(x => x.OriginalTitle)
             .IsRequired(true)
             .HasColumnType("NVARCHAR")
-            .HasMaxLength(255);
+            .HasMaxLength(65);
 
         
         builder.Property(x => x.PosterPath)
@@ -38,8 +38,7 @@ public class FavoriteMovieMapping : IEntityTypeConfiguration<FavoriteMovie>
 
         
         builder.Property(x => x.Runtime)
-            .IsRequired(false)  
-            .HasColumnType("INT");
+            .IsRequired(false);
 
         
         builder.Property(x => x.Status)
@@ -50,7 +49,7 @@ public class FavoriteMovieMapping : IEntityTypeConfiguration<FavoriteMovie>
         
         builder.Property(x => x.Priority)
             .IsRequired(true)  
-            .HasColumnType("INT");
+            .HasColumnType("SMALLINT");
 
         
         builder.Property(x => x.AddedAt)
