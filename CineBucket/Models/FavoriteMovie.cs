@@ -1,6 +1,6 @@
 namespace CineBucket.Models
 {
-    public class Movie
+    public class FavoriteMovie
     {
         public int Id { get; set; }
         public string OriginalTitle { get; set; } = string.Empty;
