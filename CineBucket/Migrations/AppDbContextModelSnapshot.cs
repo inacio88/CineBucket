@@ -31,16 +31,16 @@ namespace CineBucket.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("AddedAt")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("TIMESTAMP");
 
                     b.Property<string>("OriginalTitle")
                         .IsRequired()
                         .HasMaxLength(65)
-                        .HasColumnType("NVARCHAR");
+                        .HasColumnType("VARCHAR");
 
                     b.Property<string>("PosterPath")
                         .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR");
+                        .HasColumnType("VARCHAR");
 
                     b.Property<short>("Priority")
                         .HasColumnType("SMALLINT");
@@ -53,12 +53,12 @@ namespace CineBucket.Migrations
 
                     b.Property<string>("Status")
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR");
+                        .HasColumnType("VARCHAR");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("NVARCHAR");
+                        .HasColumnType("VARCHAR");
 
                     b.Property<int>("TmdbId")
                         .HasColumnType("integer");

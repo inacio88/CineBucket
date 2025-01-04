@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CineBucket.Migrations
 {
     /// <inheritdoc />
-    public partial class v1 : Migration
+    public partial class v2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,14 +19,14 @@ namespace CineBucket.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     TmdbId = table.Column<int>(type: "integer", nullable: false),
-                    OriginalTitle = table.Column<string>(type: "NVARCHAR", maxLength: 65, nullable: false),
-                    PosterPath = table.Column<string>(type: "NVARCHAR", maxLength: 500, nullable: true),
+                    OriginalTitle = table.Column<string>(type: "VARCHAR", maxLength: 65, nullable: false),
+                    PosterPath = table.Column<string>(type: "VARCHAR", maxLength: 500, nullable: true),
                     ReleaseDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Runtime = table.Column<int>(type: "integer", nullable: true),
-                    Status = table.Column<string>(type: "NVARCHAR", maxLength: 50, nullable: true),
-                    Title = table.Column<string>(type: "NVARCHAR", maxLength: 60, nullable: false),
+                    Status = table.Column<string>(type: "VARCHAR", maxLength: 50, nullable: true),
+                    Title = table.Column<string>(type: "VARCHAR", maxLength: 60, nullable: false),
                     Priority = table.Column<short>(type: "SMALLINT", nullable: false),
-                    AddedAt = table.Column<DateTime>(type: "DATETIME", nullable: false)
+                    AddedAt = table.Column<DateTime>(type: "TIMESTAMP", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CineBucket.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250104154222_v1")]
-    partial class v1
+    [Migration("20250104155807_v2")]
+    partial class v2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,16 +34,16 @@ namespace CineBucket.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("AddedAt")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("TIMESTAMP");
 
                     b.Property<string>("OriginalTitle")
                         .IsRequired()
                         .HasMaxLength(65)
-                        .HasColumnType("NVARCHAR");
+                        .HasColumnType("VARCHAR");
 
                     b.Property<string>("PosterPath")
                         .HasMaxLength(500)
-                        .HasColumnType("NVARCHAR");
+                        .HasColumnType("VARCHAR");
 
                     b.Property<short>("Priority")
                         .HasColumnType("SMALLINT");
@@ -56,12 +56,12 @@ namespace CineBucket.Migrations
 
                     b.Property<string>("Status")
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR");
+                        .HasColumnType("VARCHAR");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("NVARCHAR");
+                        .HasColumnType("VARCHAR");
 
                     b.Property<int>("TmdbId")
                         .HasColumnType("integer");
