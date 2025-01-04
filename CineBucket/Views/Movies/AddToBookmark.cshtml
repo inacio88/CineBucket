@@ -1,0 +1,47 @@
+@model MovieResponse
+
+@{
+    ViewData["Title"] = Model.Title;
+    string imageUrlBase = "https://image.tmdb.org/t/p/w500";
+}
+
+<div class="container mt-5">
+    <h1>@Model.Title</h1>
+    <div class="row">
+        <div class="col-md-4">
+            @if (!string.IsNullOrEmpty(Model.PosterPath))
+            {
+                <img src="@($"{imageUrlBase}{Model.PosterPath}")" alt="@Model.Title" class="img-fluid" />
+            }
+            else
+            {
+                <span>Sem pôster disponível</span>
+            }
+        </div>
+
+        <div class="col-md-8">
+            <h3>Detalhes do Filme</h3>
+            <p><strong>Sinopse:</strong> @Model.Overview</p>
+            <p><strong>Status:</strong> @Model.Status</p>
+            <p><strong>Idioma Original:</strong> @Model.OriginalLanguage</p>
+            <p><strong>Data de Lançamento:</strong>
+                @if (DateTime.TryParse(Model.ReleaseDate, out DateTime releaseDate))
+                {
+                    @releaseDate.ToString("dd/MM/yyyy")
+                }
+                else
+                {
+                    <span>Data inválida</span>
+                }
+            </p>
+            <p><strong>Popularidade:</strong> @Model.Popularity</p>
+            <p><strong>Avaliação:</strong> @Model.VoteAverage / 10 (@Model.VoteCount votos)</p>
+            <p><strong>Tagline:</strong> @Model.Tagline</p>
+            
+            @if (!string.IsNullOrEmpty(Model.Homepage))
+            {
+                <p><a href="@Model.Homepage" target="_blank" >Visite o site do filme</a></p>
+            }
+        </div>
+    </div>
+</div>

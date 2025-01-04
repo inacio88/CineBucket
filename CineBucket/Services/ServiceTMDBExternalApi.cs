@@ -31,19 +31,22 @@ public class ServiceTMDBExternalApi : IServiceTMDBExternalApi
         return movies;
     }
     
-    public async Task<MovieResponse> GetMovieByIdAsync(int id)
+    public async Task<MovieResponse?> GetMovieByIdAsync(int id)
     {
-        MovieResponse movie;
+        MovieResponse? movie;
         try
         {
             var response = await _clientHttp.GetAsync($"/3/movie/{id}");
-            movie = await response.Content.ReadFromJsonAsync<MovieResponse>() ?? new();
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<MovieResponse>();
+            }
+            return null;
         }
         catch
         {
-            throw new Exception("Erro ao carregar listas");
+            throw new Exception("Erro ao carregar filme");
         }
-
         return movie;
     }
 }
