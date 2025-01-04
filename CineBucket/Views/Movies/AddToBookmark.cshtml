@@ -42,6 +42,28 @@
             {
                 <p><a href="@Model.Homepage" target="_blank" >Visite o site do filme</a></p>
             }
+            <form action="/Movies/AddToList" method="post">
+                <input type="hidden" id="movieId" name="movieId" value="@Model.Id" />
+                <input type="hidden" id="priority" name="priority" value="5" />
+
+                <div>
+                    <label for="prioritySlider">Prioridade: </label>
+                    <input type="range" id="prioritySlider" name="prioritySlider" min="1" max="10" value="5">
+                    <span id="sliderValue">5</span> <!-- Exibe o valor atual do slider -->
+                </div>
+
+                <button type="submit" class="btn btn-primary">Adicionar à Lista</button>
+            </form>
         </div>
     </div>
 </div>
+<script>
+    const slider = document.getElementById("prioritySlider");
+    const sliderValue = document.getElementById("sliderValue");
+    const priorityInput = document.getElementById("priority");
+
+    slider.oninput = function() {
+        sliderValue.textContent = this.value;
+        priorityInput.value = this.value;
+    }
+</script>

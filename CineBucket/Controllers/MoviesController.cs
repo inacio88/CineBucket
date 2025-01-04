@@ -47,6 +47,12 @@ namespace CineBucket.Controllers
                 return RedirectToAction("Error", "Movies");
             }
         }
+        [HttpPost]
+        public IActionResult AddToList(int movieId, int priority)
+        {
+
+            return RedirectToAction("Index", "Movies"); 
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
