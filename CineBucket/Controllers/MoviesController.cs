@@ -12,16 +12,14 @@ namespace CineBucket.Controllers
         private readonly ILogger<MoviesController> _logger;
         private readonly IServiceTMDBExternalApi _serviceTMDBExternalApi;
         private readonly IServiceFavoriteMovie _serviceFavoriteMovie;
-        private AppDbContext _context;
         public MoviesController(ILogger<MoviesController> logger, 
-            IServiceTMDBExternalApi serviceTMDBExternalApi, 
-            //IServiceFavoriteMovie serviceFavoriteMovie,
-            AppDbContext context)
+            IServiceTMDBExternalApi serviceTMDBExternalApi,
+            IServiceFavoriteMovie serviceFavoriteMovie
+            )
         {
             _serviceTMDBExternalApi = serviceTMDBExternalApi;
             _logger = logger;
-            //_serviceFavoriteMovie = serviceFavoriteMovie;
-            _context = context;
+            _serviceFavoriteMovie = serviceFavoriteMovie;
         }
 
         public async Task<IActionResult> Index(int page = 1)
@@ -59,43 +57,16 @@ namespace CineBucket.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToList(int movieId, int priority)
         {
-            var fullMovie = await _serviceTMDBExternalApi.GetMovieByIdAsync(movieId);
-            if (fullMovie is null)
-                return null;
-        
             try
             {
-                var favmovie = new FavoriteMovie
-                    {
-                        Title = fullMovie.Title,
-                        OriginalTitle = fullMovie.OriginalTitle,
-                        Runtime = fullMovie.Runtime,
-                        PosterPath = fullMovie.PosterPath,
-                        ReleaseDate = fullMovie.ReleaseDate.ToUniversalTime(),
-                        Status = fullMovie.Status,
-                        Priority = priority,
-                        TmdbId = movieId,
-                        AddedAt = DateTime.Now.ToUniversalTime()
-                    }
-                    ;
-                await  _context.FavoriteMovies.AddAsync(favmovie);
-                await _context.SaveChangesAsync();
+                await _serviceFavoriteMovie.CreateAsync(movieId, priority);
+                return RedirectToAction("FavMoviesList", "Movies"); 
             }
-            catch
+            catch(Exception ex)
             {
-                return null;
+                _logger.LogError(ex, "Erro  ao adicionar à lista");
+                return RedirectToAction("Error", "Movies");
             }
-            return RedirectToAction("Index", "Movies"); 
-            // try
-            // {
-            //     _serviceFavoriteMovie.CreateAsync(movieId, priority);
-            //     return RedirectToAction("FavMoviesList", "Movies"); 
-            // }
-            // catch(Exception ex)
-            // {
-            //     _logger.LogError(ex, "Erro  ao adicionar à lista");
-            //     return RedirectToAction("Error", "Movies");
-            // }
             
         }
         

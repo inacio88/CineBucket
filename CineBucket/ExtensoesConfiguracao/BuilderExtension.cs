@@ -39,7 +39,7 @@ namespace CineBucket.ExtensoesConfiguracao
         public static void AddServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IServiceTMDBExternalApi, ServiceTMDBExternalApi>();
-            //builder.Services.AddScoped<IServiceFavoriteMovie, ServiceFavoriteMovie>();
+            builder.Services.AddScoped<IServiceFavoriteMovie, ServiceFavoriteMovie>();
         }
         
 

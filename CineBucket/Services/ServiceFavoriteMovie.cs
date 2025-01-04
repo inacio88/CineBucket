@@ -4,11 +4,13 @@ using CineBucket.Repositories;
 
 namespace CineBucket.Services;
 
-public class ServiceFavoriteMovie(IFavoriteMovieRepo repo, IServiceTMDBExternalApi externalApi) : IServiceFavoriteMovie
+public class ServiceFavoriteMovie(IFavoriteMovieRepo repo,
+    IServiceTMDBExternalApi _serviceTMDBExternalApi
+    ) : IServiceFavoriteMovie
 {
-    public async Task<FavoriteMovie?> CreateAsync(int idTmdb, int priority)
+    public async Task<FavoriteMovie?> CreateAsync(int movieId, int priority)
     {
-        var fullMovie = await externalApi.GetMovieByIdAsync(idTmdb);
+        var fullMovie = await _serviceTMDBExternalApi.GetMovieByIdAsync(movieId);
         if (fullMovie is null)
             return null;
         
@@ -20,15 +22,17 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo, IServiceTMDBExternalA
                     OriginalTitle = fullMovie.OriginalTitle,
                     Runtime = fullMovie.Runtime,
                     PosterPath = fullMovie.PosterPath,
-                    ReleaseDate = fullMovie.ReleaseDate,
+                    ReleaseDate = fullMovie.ReleaseDate.ToUniversalTime(),
                     Status = fullMovie.Status,
                     Priority = priority,
-                    TmdbId = idTmdb,
+                    TmdbId = movieId,
                     AddedAt = DateTime.Now.ToUniversalTime()
                 }
                 ;
-            var movie = await repo.CreateAsync(favmovie);
-            return movie;
+
+            await repo.CreateAsync(favmovie);
+
+            return favmovie;
         }
         catch
         {
