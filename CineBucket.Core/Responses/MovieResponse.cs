@@ -38,7 +38,7 @@ namespace CineBucket.Core.Responses
         public string PosterPath { get; set; } = string.Empty;
 
         [JsonPropertyName("release_date")]
-        public string ReleaseDate { get; set; } = string.Empty;
+        public DateTime ReleaseDate { get; set; }
 
         [JsonPropertyName("revenue")]
         public decimal Revenue { get; set; }

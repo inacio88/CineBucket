@@ -39,14 +39,7 @@
                     <td>@mov.Title</td>
                     <td>@mov.Overview</td>
                     <td>
-                        @if (DateTime.TryParse(mov.ReleaseDate, out DateTime releaseDate))
-                        {
-                            @releaseDate.ToString("dd/MM/yyyy")
-                        }
-                        else
-                        {
-                            <span>Data inválida</span>
-                        }
+                        @mov.ReleaseDate.ToString("dd/MM/yyyy")
                     </td>
                     <td class="text-center">
                         <a href="@Url.Action("AddToBookmark", new { movieId = mov.Id })" class="btn btn-sm btn-outline-warning">

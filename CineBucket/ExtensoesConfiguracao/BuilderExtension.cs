@@ -1,6 +1,8 @@
 using CineBucket.Core.Configuracoes;
 using CineBucket.Core.Services;
+using CineBucket.Data;
 using CineBucket.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace CineBucket.ExtensoesConfiguracao
 {
@@ -13,6 +15,12 @@ namespace CineBucket.ExtensoesConfiguracao
 
             ConfiguracoesGerais.ApiReadAccessToken = builder.Configuration.GetValue<string>("ApiReadAccessToken")
                                                     ?? throw new Exception("Falha nas configurações da aplicação");
+        }
+        public static void AddDatabaseContext(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddDbContextPool<AppDbContext>(options => 
+                options.UseNpgsql(ConfiguracoesGerais.ConnectionString)
+                );
         }
 
         public static void AddHttpClientServices(this WebApplicationBuilder builder)
