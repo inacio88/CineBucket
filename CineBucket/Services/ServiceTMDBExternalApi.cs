@@ -33,7 +33,6 @@ public class ServiceTMDBExternalApi : IServiceTMDBExternalApi
     
     public async Task<MovieResponse?> GetMovieByIdAsync(int id)
     {
-        MovieResponse? movie;
         try
         {
             var response = await _clientHttp.GetAsync($"/3/movie/{id}");
@@ -47,6 +46,5 @@ public class ServiceTMDBExternalApi : IServiceTMDBExternalApi
         {
             throw new Exception("Erro ao carregar filme");
         }
-        return movie;
     }
 }
