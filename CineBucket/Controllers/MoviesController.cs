@@ -11,7 +11,9 @@ namespace CineBucket.Controllers
         private readonly ILogger<MoviesController> _logger;
         private readonly IServiceTMDBExternalApi _serviceTMDBExternalApi;
         private readonly IServiceFavoriteMovie _serviceFavoriteMovie; 
-        public MoviesController(ILogger<MoviesController> logger, IServiceTMDBExternalApi serviceTMDBExternalApi, ServiceFavoriteMovie serviceFavoriteMovie)
+        public MoviesController(ILogger<MoviesController> logger, 
+            IServiceTMDBExternalApi serviceTMDBExternalApi, 
+            IServiceFavoriteMovie serviceFavoriteMovie)
         {
             _serviceTMDBExternalApi = serviceTMDBExternalApi;
             _logger = logger;
@@ -46,17 +48,42 @@ namespace CineBucket.Controllers
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex, "Erro ao adicionar ao bookmark");
+                _logger.LogError(ex, "Erro ao ver detalhes");
                 return RedirectToAction("Error", "Movies");
             }
         }
         [HttpPost]
         public IActionResult AddToList(int movieId, int priority)
         {
+            try
+            {
+                _serviceFavoriteMovie.CreateAsync(movieId, priority);
+                return RedirectToAction("FavMoviesList", "Movies"); 
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Erro  ao adicionar à lista");
+                return RedirectToAction("Error", "Movies");
+            }
             
-
-            return RedirectToAction("Index", "Movies"); 
         }
+        
+        public async Task<IActionResult> FavMoviesList(int page = 1)
+        {
+            try
+            {
+                var movies = await _serviceFavoriteMovie.GetAllAsync();
+                if(movies is null)
+                    return RedirectToAction("Error", "Movies");
+
+                return View(movies);
+            }
+            catch
+            {
+                return RedirectToAction("Error", "Movies");
+            }
+        }
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

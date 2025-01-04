@@ -9,4 +9,5 @@ public interface IFavoriteMovieRepo
     public Task<FavoriteMovie?> GetByIdAsync(int id);
     public Task<FavoriteMovie?> DeleteByIdAsync(int id);
     public Task<FavoriteMovie?> GetByTmdbIdAsync(int tmdbId);
+    public Task<List<FavoriteMovie>?> GetAllAsync();
 }

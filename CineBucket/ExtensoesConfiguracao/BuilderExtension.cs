@@ -40,7 +40,7 @@ namespace CineBucket.ExtensoesConfiguracao
         }
         public static void AddRepos(this WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<IFavoriteMovieRepo, FavoriteMovieRepo>();
+            builder.Services.AddTransient<IFavoriteMovieRepo, FavoriteMovieRepo>();
         }
 
     }

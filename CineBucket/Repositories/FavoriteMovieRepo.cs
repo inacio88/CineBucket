@@ -86,5 +86,20 @@ public class FavoriteMovieRepo(AppDbContext context) : IFavoriteMovieRepo
             return null;
         }
     }
-    
+
+    public async Task<List<FavoriteMovie>?> GetAllAsync()
+    {
+        try
+        {
+            var movies = await context.FavoriteMovies
+                .AsNoTracking()
+                .ToListAsync();
+            
+            return movies;
+        }
+        catch
+        {
+            return null;
+        }
+    }
 }

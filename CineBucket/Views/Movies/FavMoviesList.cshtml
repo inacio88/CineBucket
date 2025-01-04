@@ -1,0 +1,50 @@
+@model List<FavoriteMovie>
+
+@{
+    ViewData["Title"] = "Meus filmes";
+    string imageUrlBase = "https://image.tmdb.org/t/p/w200";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Poster</th>
+            <th>Título</th>
+            <th>Lançamento</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mov in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(mov.PosterPath))
+                        {
+                            <img src="@($"{imageUrlBase}{mov.PosterPath}")" alt="@mov.Title" style="width: 100px; height: auto;" />
+                        }
+                        else
+                        {
+                            <span>Sem imagem</span>
+                        }
+                    </td>
+                    <td>@mov.Title</td>
+                    <td>
+                        @mov.ReleaseDate?.ToString("dd/mm/yyyy")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <p>Lista vazia.</p>
+}
