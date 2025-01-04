@@ -18,7 +18,8 @@
             <th>Poster</th>
             <th>Título</th>
             <th>Sinopse</th>
-            <th>Data de lançamento</th>
+            <th>Lançamento</th>
+            <th>Favoritar</th>
         </tr>
     </thead>
     <tbody>
@@ -46,6 +47,11 @@
                         {
                             <span>Data inválida</span>
                         }
+                    </td>
+                    <td class="text-center">
+                        <a href="@Url.Action("AddToBookmark", new { movieId = mov.Id })" class="btn btn-sm btn-outline-warning">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                        </a>
                     </td>
                 </tr>
             }
