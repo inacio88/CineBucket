@@ -86,6 +86,26 @@ namespace CineBucket.Controllers
             }
         }
         
+        [HttpPost]
+        public async Task<IActionResult> Delete(int movieId)
+        {
+            try
+            {
+                var movie = await _serviceFavoriteMovie.DeleteByIdAsync(movieId);
+                if (movie == null)
+                {
+                    return RedirectToAction("Error", "Movies");
+                }
+                return RedirectToAction("FavMoviesList", "Movies");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao excluir filme");
+                return RedirectToAction("Error", "Movies");
+            }
+        }
+
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

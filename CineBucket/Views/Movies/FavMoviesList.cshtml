@@ -20,6 +20,7 @@
             <th>Adicionado em</th>
             <th>Duração</th>
             <th>Prioridade</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -47,6 +48,9 @@
                         <td>@($"{hours}h{minutes}m")</td>
                     }
                     <td>@mov?.Priority</td>
+                    <td>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-movie-id="@mov.Id">Remover da minha lista</button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -57,3 +61,35 @@ else
 {
     <p>Lista vazia.</p>
 }
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Você tem certeza que deseja excluir este filme da sua lista?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="post" action="@Url.Action("Delete", "Movies")">
+                    <input type="hidden" id="movieId" name="movieId" value="" />
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var deleteModal = document.getElementById('deleteModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var movieId = button.getAttribute('data-movie-id');
+        var movieIdInput = document.getElementById('movieId');
+        movieIdInput.value = movieId;
+    });
+</script>

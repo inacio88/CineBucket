@@ -19,10 +19,9 @@ public class FavoriteMovieRepo : IFavoriteMovieRepo
             await _context.SaveChangesAsync();
             return favoriteMovie;
         }
-        catch(Exception ex)
+        catch
         {
-            var aa = ex.Message;
-            throw new Exception(aa);
+            return null;
         }
     }
 
@@ -99,6 +98,7 @@ public class FavoriteMovieRepo : IFavoriteMovieRepo
         {
             var movies = await _context.FavoriteMovies
                 .AsNoTracking()
+                .OrderByDescending(x => x.Priority)
                 .ToListAsync();
             
             return movies;

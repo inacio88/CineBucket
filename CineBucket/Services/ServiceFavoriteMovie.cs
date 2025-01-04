@@ -45,7 +45,6 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo,
         try
         {
             return await repo.GetAllAsync();
-            //return new List<FavoriteMovie>();
         }
         catch
         {
@@ -53,11 +52,23 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo,
         }
     }
 
-    public async Task<FavoriteMovie?> GetByIdTmdb(int idTmdb)
+    public async Task<FavoriteMovie?> GetByIdTmdbAsync(int idTmdb)
     {
         try
         {
             return await repo.GetByTmdbIdAsync(idTmdb);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task<FavoriteMovie?> DeleteByIdAsync(int id)
+    {
+        try
+        {
+            return await repo.DeleteByIdAsync(id);
         }
         catch
         {
