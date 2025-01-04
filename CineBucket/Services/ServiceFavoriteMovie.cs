@@ -44,8 +44,8 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo,
     {
         try
         {
-            //return await repo.GetAllAsync();
-            return new List<FavoriteMovie>();
+            return await repo.GetAllAsync();
+            //return new List<FavoriteMovie>();
         }
         catch
         {

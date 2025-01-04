@@ -74,11 +74,11 @@ namespace CineBucket.Controllers
         {
             try
             {
-                // var movies = await _serviceFavoriteMovie.GetAllAsync();
-                // if(movies is null)
-                //     return RedirectToAction("Error", "Movies");
+                var movies = await _serviceFavoriteMovie.GetAllAsync();
+                if(movies is null)
+                    return RedirectToAction("Error", "Movies");
 
-                return RedirectToAction("Index", "Movies");
+                return View(movies);
             }
             catch
             {
