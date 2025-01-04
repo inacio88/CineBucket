@@ -17,12 +17,12 @@ namespace CineBucket.Controllers
             _clientHttp.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ConfiguracoesGerais.ApiReadAccessToken);
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
             MoviePagedResponse movies;
             try
             {
-                var response = await _clientHttp.GetAsync("/3/movie/popular?language=en-US&page=1");
+                var response = await _clientHttp.GetAsync($"/3/movie/popular?language=en-US&page={page}");
                 movies = await response.Content.ReadFromJsonAsync<MoviePagedResponse>() ?? new();
             }
             catch

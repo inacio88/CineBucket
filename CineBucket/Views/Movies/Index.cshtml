@@ -1,3 +1,5 @@
+@model MoviePagedResponse
+
 @{
     ViewData["Title"] = "Lista de filmes";
 }
@@ -5,3 +7,43 @@
 <div class="text-center">
     <h1 class="display-4">@ViewData["Title"]</h1>
 </div>
+
+
+@if(Model != null && Model.Results.Count() > 0)
+{
+      <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Sinopse</th>
+                <th>Data de lançamento</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var mov in Model.Results)
+            {
+                <tr>
+                    <td>@mov.Title</td>
+                    <td>@mov.Overview</td>
+                    <td>@mov.ReleaseDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+        <div class="text-center">
+        @if (Model.Page > 1)
+        {
+            <a href="@Url.Action("Index", new { page = Model.Page - 1 })" class="btn btn-primary">Página Anterior</a>
+        }
+
+        @if (Model.Page < Model.TotalPages)
+        {
+            <a href="@Url.Action("Index", new { page = Model.Page + 1 })" class="btn btn-primary">Próxima Página</a>
+        }
+    </div>
+}
+else
+{
+    <p>Lista vazia.</p>
+}
