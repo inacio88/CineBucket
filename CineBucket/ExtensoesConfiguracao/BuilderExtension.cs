@@ -1,4 +1,6 @@
 using CineBucket.Core.Configuracoes;
+using CineBucket.Core.Services;
+using CineBucket.Services;
 
 namespace CineBucket.ExtensoesConfiguracao
 {
@@ -18,8 +20,13 @@ namespace CineBucket.ExtensoesConfiguracao
             builder.Services.AddHttpClient(ConfiguracoesGerais.HttpClientName, client =>
             {
                 client.BaseAddress = new Uri(ConfiguracoesGerais.ExternalApiUrl); 
-                //client.Timeout = TimeSpan.FromSeconds(30);
+                client.Timeout = TimeSpan.FromSeconds(30);
             });
+        }
+        
+        public static void AddServices(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IServiceTMDBExternalApi, ServiceTMDBExternalApi>();
         }
 
     }

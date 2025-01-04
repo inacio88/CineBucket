@@ -1,7 +1,4 @@
-using System.Net.Http.Headers;
-using CineBucket.Core.Configuracoes;
-using CineBucket.Core.Responses;
-using CineBucket.Models;
+using CineBucket.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CineBucket.Controllers
@@ -9,27 +6,16 @@ namespace CineBucket.Controllers
     public class MoviesController : Controller
     {
         private readonly ILogger<MoviesController> _logger;
-        private readonly HttpClient _clientHttp;
-        public MoviesController(ILogger<MoviesController> logger, IHttpClientFactory clientFactory)
+        private readonly IServiceTMDBExternalApi _serviceTMDBExternalApi;
+        public MoviesController(ILogger<MoviesController> logger, IServiceTMDBExternalApi serviceTMDBExternalApi)
         {
+            _serviceTMDBExternalApi = serviceTMDBExternalApi;
             _logger = logger;
-            _clientHttp = clientFactory.CreateClient(ConfiguracoesGerais.HttpClientName);
-            _clientHttp.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ConfiguracoesGerais.ApiReadAccessToken);
         }
 
         public async Task<IActionResult> Index(int page = 1)
         {
-            MoviePagedResponse movies;
-            try
-            {
-                var response = await _clientHttp.GetAsync($"/3/movie/popular?language=en-US&page={page}");
-                movies = await response.Content.ReadFromJsonAsync<MoviePagedResponse>() ?? new();
-            }
-            catch
-            {
-                throw new Exception("Erro ao carregar listas");
-            }
-
+            var movies = await _serviceTMDBExternalApi.GetPopularMoviesByPageAsync(page);
             return View(movies);
         }
 
