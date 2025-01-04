@@ -8,6 +8,7 @@ builder.AddConfiguration();
 builder.AddDatabaseContext();
 builder.AddHttpClientServices();
 builder.AddServices();
+builder.AddRepos();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,6 +1,7 @@
 using CineBucket.Core.Configuracoes;
 using CineBucket.Core.Services;
 using CineBucket.Data;
+using CineBucket.Repositories;
 using CineBucket.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +36,10 @@ namespace CineBucket.ExtensoesConfiguracao
         public static void AddServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IServiceTMDBExternalApi, ServiceTMDBExternalApi>();
+        }
+        public static void AddRepos(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<IFavoriteMovieRepo, FavoriteMovieRepo>();
         }
 
     }
