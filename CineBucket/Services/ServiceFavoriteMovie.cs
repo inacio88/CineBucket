@@ -75,4 +75,16 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo,
             return null;
         }
     }
+
+    public async Task<FavoriteMovie?> UpdateByIdAsync(FavoriteMovie favoriteMovie)
+    {
+        try
+        {
+            return await repo.UpdateAsync(favoriteMovie);
+        }
+        catch
+        {
+            return null;
+        }
+    }
 }

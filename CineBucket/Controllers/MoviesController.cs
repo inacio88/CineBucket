@@ -59,7 +59,19 @@ namespace CineBucket.Controllers
         {
             try
             {
-                await _serviceFavoriteMovie.CreateAsync(movieId, priority);
+                var movie = await _serviceFavoriteMovie.GetByIdTmdbAsync(movieId);
+                if (movie is null)
+                {
+                    await _serviceFavoriteMovie.CreateAsync(movieId, priority);
+                }
+                else
+                { 
+                    movie.Priority = priority;
+                   var editMovie = await _serviceFavoriteMovie.UpdateByIdAsync(movie);
+                   if(editMovie is null)
+                       return RedirectToAction("Error", "Movies");
+                }
+                
                 return RedirectToAction("FavMoviesList", "Movies"); 
             }
             catch(Exception ex)

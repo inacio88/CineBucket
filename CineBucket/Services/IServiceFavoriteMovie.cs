@@ -8,4 +8,5 @@ public interface IServiceFavoriteMovie
     public Task<List<FavoriteMovie>?> GetAllAsync();
     public Task<FavoriteMovie?> GetByIdTmdbAsync(int idTmdb);
     public Task<FavoriteMovie?> DeleteByIdAsync(int id);
+    public Task<FavoriteMovie?> UpdateByIdAsync(FavoriteMovie favoriteMovie);
 }

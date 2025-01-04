@@ -49,7 +49,10 @@
                     }
                     <td>@mov?.Priority</td>
                     <td>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-movie-id="@mov.Id">Remover da minha lista</button>
+                        <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteModal" data-movie-id="@mov.Id">Remover da minha lista</button>
+                        <a href="@Url.Action("DetailFullMovie", new { movieId = mov.TmdbId })" class="btn btn-sm btn-warning mt-2 w-100 d-block">
+                            Detalhes
+                        </a>
                     </td>
                 </tr>
             }

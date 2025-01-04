@@ -34,8 +34,8 @@ public class FavoriteMovieRepo : IFavoriteMovieRepo
                 return null;
 
             movie.Priority = favoriteMovie.Priority;
-            movie.AddedAt = DateTime.UtcNow;
-
+            movie.AddedAt = DateTime.Now.ToUniversalTime();
+            _context.Update(movie);
             await _context.SaveChangesAsync();
 
             return movie;
