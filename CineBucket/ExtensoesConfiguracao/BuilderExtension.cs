@@ -13,8 +13,9 @@ namespace CineBucket.ExtensoesConfiguracao
     {
         public static void AddConfiguration(this WebApplicationBuilder builder)
         {
-            ConfiguracoesGerais.ConnectionString = builder.Configuration.GetConnectionString("Default")
-                                                    ?? string.Empty;
+            ConfiguracoesGerais.ConnectionString = builder.Configuration.GetValue<string>("conexao")
+                                                    ?? builder.Configuration.GetConnectionString("Default")  
+                                                    ?? throw new Exception("Sem string de conexao");
 
             ConfiguracoesGerais.ApiReadAccessToken = builder.Configuration.GetValue<string>("ApiReadAccessToken")
                                                     ?? string.Empty;
