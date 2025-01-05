@@ -24,7 +24,7 @@ jobs:
       - name: Migrations CREATE bundle
         run: |
           dotnet tool install --global dotnet-ef --version 9.0.0
-          dotnet-ef migrations bundle --project CineBucket/CineBucket.csproj --output efbundle
+          dotnet ef migrations bundle --project CineBucket/CineBucket.csproj --output efbundle
       
       - name: Run ef migrations
         run: ./efbundle --connection "${{secrets.CONNECTION_STRING}}"
