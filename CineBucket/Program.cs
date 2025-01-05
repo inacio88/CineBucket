@@ -22,8 +22,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 else{
-    using var dbContext = new AppDbContext(new DbContextOptionsBuilder<AppDbContext>().UseNpgsql(ConfiguracoesGerais.ConnectionString).Options);
-    await dbContext.Database.MigrateAsync();    
+    //using var dbContext = new AppDbContext(new DbContextOptionsBuilder<AppDbContext>().UseNpgsql(ConfiguracoesGerais.ConnectionString).Options);
+    //await dbContext.Database.MigrateAsync();    
 }
 
 app.UseHttpsRedirection();
