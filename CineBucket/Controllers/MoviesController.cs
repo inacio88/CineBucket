@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CineBucket.Controllers
 
 {
-    [Authorize]
+    //[Authorize]
     public class MoviesController : Controller
     {
         private readonly ILogger<MoviesController> _logger;
