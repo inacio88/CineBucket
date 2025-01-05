@@ -21,6 +21,14 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      - name: Migrations CREATE bundle
+        run: |
+          dotnet tool install --global dotnet-ef --version 9.0.0
+          dotnet-ef migrations bundle --project CineBucket/CineBucket.csproj --output efbundle
+      
+      - name: Run ef migrations
+        run: ./efbundle --connection "${{secrets.CONNECTION_STRING}}"
+
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
@@ -32,14 +40,6 @@ jobs:
         with:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
-
-      - name: Migrations create bundle
-        run: |
-          dotnet tool install --global dotnet-ef --version 8.0.11
-          dotnet-ef migrations bundle --project CineBucket/CineBucket.csproj --output efbundle
-
-      - name: Run ef migrations
-        run: ./efbundle --connection "${{secrets.CONNECTION_STRING}}"
 
 
 
