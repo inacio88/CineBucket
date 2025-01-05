@@ -3,10 +3,13 @@ using CineBucket.Core.Services;
 using CineBucket.Data;
 using CineBucket.Models;
 using CineBucket.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CineBucket.Controllers
+
 {
+    [Authorize]
     public class MoviesController : Controller
     {
         private readonly ILogger<MoviesController> _logger;
