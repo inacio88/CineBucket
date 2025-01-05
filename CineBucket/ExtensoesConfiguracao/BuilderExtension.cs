@@ -17,7 +17,7 @@ namespace CineBucket.ExtensoesConfiguracao
                                                     ?? throw new Exception("Falha ao obter stringconection");
 
             ConfiguracoesGerais.ApiReadAccessToken = builder.Configuration.GetValue<string>("ApiReadAccessToken")
-                                                    ?? throw new Exception("Falha ao obter chaveapi");
+                                                    ?? string.Empty;
         }
         public static void AddDatabaseContext(this WebApplicationBuilder builder)
         {
