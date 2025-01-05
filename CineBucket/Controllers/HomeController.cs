@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using CineBucket.Models;
+using CineBucket.Core.Configuracoes;
 
 namespace CineBucket.Controllers;
 
@@ -16,7 +17,7 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         _logger.LogInformation("Home index");
-        return View();
+        return View(new List<string>{ConfiguracoesGerais.ConnectionString});
     }
 
     public IActionResult Privacy()

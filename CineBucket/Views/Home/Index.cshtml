@@ -1,8 +1,9 @@
-﻿@{
+﻿@model List<string>
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Seja bem-vindo(a)</h1>
+    <h1 class="display-4">Seja bem-vindo(a) @Model.FirstOrDefault()</h1>
     <p>Adicione filmes a sua lista</p>
 </div>
