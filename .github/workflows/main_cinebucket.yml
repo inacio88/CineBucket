@@ -35,7 +35,7 @@ jobs:
 
       - name: Migrations create bundle
         run: |
-          dotnet tool install --global dotnet-ef
+          dotnet tool install --global dotnet-ef --version 8.0.11
           dotnet-ef migrations bundle --project CineBucket/CineBucket.csproj --output efbundle
 
       - name: Run ef migrations
