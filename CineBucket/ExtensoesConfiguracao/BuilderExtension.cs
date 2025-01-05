@@ -14,10 +14,10 @@ namespace CineBucket.ExtensoesConfiguracao
         public static void AddConfiguration(this WebApplicationBuilder builder)
         {
             ConfiguracoesGerais.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-                                                    ?? throw new Exception("Falha nas configurações da aplicação");
+                                                    ?? throw new Exception("Falha ao obter stringconection");
 
             ConfiguracoesGerais.ApiReadAccessToken = builder.Configuration.GetValue<string>("ApiReadAccessToken")
-                                                    ?? throw new Exception("Falha nas configurações da aplicação");
+                                                    ?? throw new Exception("Falha ao obter chaveapi");
         }
         public static void AddDatabaseContext(this WebApplicationBuilder builder)
         {
