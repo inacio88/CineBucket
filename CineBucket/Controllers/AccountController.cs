@@ -60,7 +60,7 @@ public class AccountController : Controller
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
-                return RedirectToAction("Index", "Movies");
+                return RedirectToAction("Index", "Home");
             }
 
             foreach (var error in result.Errors)
