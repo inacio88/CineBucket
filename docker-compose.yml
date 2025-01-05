@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ApiReadAccessToken=${ApiReadAccessToken}
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Username=postgres;Password=abc123@@A;Database=mydatabase
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    container_name: my-postgres-compose
+    restart: always
+    ports:
+      - "5442:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: abc123@@A
+      POSTGRES_DB: mydatabase
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
