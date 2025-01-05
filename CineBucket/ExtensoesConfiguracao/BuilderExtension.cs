@@ -1,8 +1,10 @@
 using CineBucket.Core.Configuracoes;
 using CineBucket.Core.Services;
 using CineBucket.Data;
+using CineBucket.Models;
 using CineBucket.Repositories;
 using CineBucket.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CineBucket.ExtensoesConfiguracao
@@ -22,6 +24,10 @@ namespace CineBucket.ExtensoesConfiguracao
             builder.Services.AddDbContext<AppDbContext>(options => 
                 options.UseNpgsql(ConfiguracoesGerais.ConnectionString)
                 );
+            
+            builder.Services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
         }
 
         public static void AddHttpClientServices(this WebApplicationBuilder builder)
