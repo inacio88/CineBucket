@@ -35,7 +35,7 @@ namespace CineBucket.Controllers
             }
         }
 
-        public async Task<IActionResult> DetailFullMovie(int movieId)
+        public async Task<IActionResult> DetailFullMovie(int movieId, int priority = 0)
         {
             
             try
