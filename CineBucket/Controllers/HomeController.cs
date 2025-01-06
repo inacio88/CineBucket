@@ -17,7 +17,7 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         _logger.LogInformation("Home index");
-        return View(new List<string>{ConfiguracoesGerais.ConnectionString});
+        return View();
     }
 
     public IActionResult Privacy()

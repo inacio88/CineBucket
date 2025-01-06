@@ -34,7 +34,7 @@ public class AccountController : Controller
                  .PasswordSignInAsync(request.Username, request.Password, request.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Movies");
+                    return RedirectToAction("FavMoviesList", "Movies");
                 }
                 ModelState.AddModelError(string.Empty, "Login ou senha incorretos");
                 _logger.LogInformation("Login Post valido");
@@ -76,7 +76,7 @@ public class AccountController : Controller
                 {
                     await _signInManager.SignInAsync(user, false);
                     _logger.LogInformation("Register Post valido");
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("FavMoviesList", "Movies");
                 }
 
                 foreach (var error in result.Errors)
