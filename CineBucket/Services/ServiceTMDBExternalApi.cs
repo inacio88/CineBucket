@@ -30,7 +30,23 @@ public class ServiceTMDBExternalApi : IServiceTMDBExternalApi
 
         return movies;
     }
-    
+
+    public async Task<MoviePagedResponse> GetTopRatedMoviesByPageAsync()
+    {
+        MoviePagedResponse movies;
+        try
+        {
+            var response = await _clientHttp.GetAsync($"/3/movie/top_rated?language=en-US&page=1");
+            movies = await response.Content.ReadFromJsonAsync<MoviePagedResponse>() ?? new();
+        }
+        catch
+        {
+            throw new Exception("Erro ao carregar listas");
+        }
+
+        return movies;
+    }
+
     public async Task<MovieResponse?> GetMovieByIdAsync(int id)
     {
         try
