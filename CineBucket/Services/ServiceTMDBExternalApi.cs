@@ -23,9 +23,9 @@ public class ServiceTMDBExternalApi : IServiceTMDBExternalApi
             var response = await _clientHttp.GetAsync($"/3/movie/popular?language=en-US&page={page}");
             movies = await response.Content.ReadFromJsonAsync<MoviePagedResponse>() ?? new();
         }
-        catch
+        catch(Exception ex)
         {
-            throw new Exception("Erro ao carregar listas");
+            throw new Exception(ex.Message);
         }
 
         return movies;

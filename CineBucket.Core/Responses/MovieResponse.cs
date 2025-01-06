@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json.Serialization;
 
 namespace CineBucket.Core.Responses
@@ -38,7 +39,17 @@ namespace CineBucket.Core.Responses
         public string PosterPath { get; set; } = string.Empty;
 
         [JsonPropertyName("release_date")]
-        public DateTime ReleaseDate { get; set; }
+        public string ReleaseDateStr { get; set; } = string.Empty;
+        public DateTime? ReleaseDate { 
+            get
+            {
+                if (DateTime.TryParseExact(ReleaseDateStr, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
+                {
+                    return date;
+                }
+                return null;
+            }
+        }
 
         [JsonPropertyName("revenue")]
         public decimal Revenue { get; set; }
