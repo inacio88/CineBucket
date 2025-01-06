@@ -13,7 +13,9 @@ public class FavoriteMovieMapping : IEntityTypeConfiguration<FavoriteMovie>
 
         builder.Property(x => x.TmdbId)
             .IsRequired(true);
-
+        
+        builder.Property(x => x.UserId)
+            .IsRequired(true);
         
         builder.Property(x => x.Title)
             .IsRequired(true)  

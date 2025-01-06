@@ -4,6 +4,7 @@ namespace CineBucket.Models
     {
         public int Id { get; set; }
         public int TmdbId { get; set; }
+        public string UserId { get; set; }
         public string? OriginalTitle { get; set; } = string.Empty;
         public string? PosterPath { get; set; } = string.Empty;
         public DateTime? ReleaseDate { get; set; }

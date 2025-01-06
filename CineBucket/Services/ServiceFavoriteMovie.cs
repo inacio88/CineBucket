@@ -8,7 +8,7 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo,
     IServiceTMDBExternalApi _serviceTMDBExternalApi
     ) : IServiceFavoriteMovie
 {
-    public async Task<FavoriteMovie?> CreateAsync(int movieId, int priority)
+    public async Task<FavoriteMovie?> CreateAsync(int movieId, int priority, string userId)
     {
         var fullMovie = await _serviceTMDBExternalApi.GetMovieByIdAsync(movieId);
         if (fullMovie is null)
@@ -26,7 +26,8 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo,
                     Status = fullMovie.Status,
                     Priority = priority,
                     TmdbId = movieId,
-                    AddedAt = DateTime.Now.ToUniversalTime()
+                    AddedAt = DateTime.Now.ToUniversalTime(),
+                    UserId = userId
                 }
                 ;
 
@@ -40,11 +41,11 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo,
         }
     }
 
-    public async Task<List<FavoriteMovie>?> GetAllAsync()
+    public async Task<List<FavoriteMovie>?> GetAllAsync(string userId)
     {
         try
         {
-            return await repo.GetAllAsync();
+            return await repo.GetAllAsync(userId);
         }
         catch
         {
@@ -52,11 +53,11 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo,
         }
     }
 
-    public async Task<FavoriteMovie?> GetByIdTmdbAsync(int idTmdb)
+    public async Task<FavoriteMovie?> GetByIdTmdbAsync(int idTmdb, string userId)
     {
         try
         {
-            return await repo.GetByTmdbIdAsync(idTmdb);
+            return await repo.GetByTmdbIdAsync(idTmdb, userId);
         }
         catch
         {
@@ -64,11 +65,11 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo,
         }
     }
 
-    public async Task<FavoriteMovie?> DeleteByIdAsync(int id)
+    public async Task<FavoriteMovie?> DeleteByIdAsync(int id, string userId)
     {
         try
         {
-            return await repo.DeleteByIdAsync(id);
+            return await repo.DeleteByIdAsync(id, userId);
         }
         catch
         {

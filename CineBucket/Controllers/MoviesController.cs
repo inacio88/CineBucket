@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Security.Claims;
 using CineBucket.Core.Services;
 using CineBucket.Data;
 using CineBucket.Models;
@@ -60,16 +61,19 @@ namespace CineBucket.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToList(int movieId, int priority)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            
             try
             {
-                var movie = await _serviceFavoriteMovie.GetByIdTmdbAsync(movieId);
+                var movie = await _serviceFavoriteMovie.GetByIdTmdbAsync(movieId, userId);
                 if (movie is null)
                 {
-                    await _serviceFavoriteMovie.CreateAsync(movieId, priority);
+                    await _serviceFavoriteMovie.CreateAsync(movieId, priority, userId);
                 }
                 else
                 { 
                     movie.Priority = priority;
+                    movie.UserId = userId;
                    var editMovie = await _serviceFavoriteMovie.UpdateByIdAsync(movie);
                    if(editMovie is null)
                        return RedirectToAction("Error", "Movies");
@@ -87,9 +91,11 @@ namespace CineBucket.Controllers
         
         public async Task<IActionResult> FavMoviesList(int page = 1)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
             try
             {
-                var movies = await _serviceFavoriteMovie.GetAllAsync();
+                var movies = await _serviceFavoriteMovie.GetAllAsync(userId);
                 if(movies is null)
                     return RedirectToAction("Error", "Movies");
 
@@ -104,9 +110,10 @@ namespace CineBucket.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int movieId)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             try
             {
-                var movie = await _serviceFavoriteMovie.DeleteByIdAsync(movieId);
+                var movie = await _serviceFavoriteMovie.DeleteByIdAsync(movieId, userId);
                 if (movie == null)
                 {
                     return RedirectToAction("Error", "Movies");

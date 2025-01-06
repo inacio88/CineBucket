@@ -29,7 +29,7 @@ public class FavoriteMovieRepo : IFavoriteMovieRepo
     {
         try
         {
-            var movie = await GetByIdAsync(favoriteMovie.Id);
+            var movie = await GetByIdAsync(favoriteMovie.Id, favoriteMovie.UserId);
             if (movie is null)
                 return null;
 
@@ -46,13 +46,13 @@ public class FavoriteMovieRepo : IFavoriteMovieRepo
         }
     }
 
-    public async Task<FavoriteMovie?> GetByIdAsync(int id)
+    public async Task<FavoriteMovie?> GetByIdAsync(int id, string userId)
     {
         try
         {
             return await _context.FavoriteMovies
                         .AsNoTracking()
-                        .FirstOrDefaultAsync(x => x.Id == id);
+                        .FirstOrDefaultAsync(x => x.Id == id && x.UserId == userId);
         }
         catch
         {
@@ -60,11 +60,11 @@ public class FavoriteMovieRepo : IFavoriteMovieRepo
         }
     }
 
-    public async Task<FavoriteMovie?> DeleteByIdAsync(int id)
+    public async Task<FavoriteMovie?> DeleteByIdAsync(int id, string userId)
     {
         try
         {
-            var movie = await GetByIdAsync(id);
+            var movie = await GetByIdAsync(id, userId);
             if (movie is null)
                 return null;
 
@@ -78,12 +78,13 @@ public class FavoriteMovieRepo : IFavoriteMovieRepo
         }
     }
 
-    public async Task<FavoriteMovie?> GetByTmdbIdAsync(int tmdbId)
+    public async Task<FavoriteMovie?> GetByTmdbIdAsync(int tmdbId, string userId)
     {
         try
         {
             return await _context.FavoriteMovies
                 .AsNoTracking()
+                .Where(x => x.UserId == userId)
                 .FirstOrDefaultAsync(x => x.TmdbId == tmdbId);
         }
         catch
@@ -92,12 +93,13 @@ public class FavoriteMovieRepo : IFavoriteMovieRepo
         }
     }
 
-    public async Task<List<FavoriteMovie>?> GetAllAsync()
+    public async Task<List<FavoriteMovie>?> GetAllAsync(string userId)
     {
         try
         {
             var movies = await _context.FavoriteMovies
                 .AsNoTracking()
+                .Where(x => x.UserId == userId)
                 .OrderByDescending(x => x.Priority)
                 .ToListAsync();
             
