@@ -8,7 +8,7 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo,
     IServiceTMDBExternalApi _serviceTMDBExternalApi
     ) : IServiceFavoriteMovie
 {
-    public async Task<FavoriteMovie?> CreateAsync(int movieId, int priority)
+    public async Task<FavoriteMovie?> CreateAsync(int movieId, int priority, string userId)
     {
         var fullMovie = await _serviceTMDBExternalApi.GetMovieByIdAsync(movieId);
         if (fullMovie is null)
@@ -26,7 +26,8 @@ public class ServiceFavoriteMovie(IFavoriteMovieRepo repo,
                     Status = fullMovie.Status,
                     Priority = priority,
                     TmdbId = movieId,
-                    AddedAt = DateTime.Now.ToUniversalTime()
+                    AddedAt = DateTime.Now.ToUniversalTime(),
+                    UserId = userId
                 }
                 ;
 

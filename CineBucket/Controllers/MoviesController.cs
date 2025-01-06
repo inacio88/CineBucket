@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Security.Claims;
 using CineBucket.Core.Services;
 using CineBucket.Data;
 using CineBucket.Models;
@@ -60,12 +61,14 @@ namespace CineBucket.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToList(int movieId, int priority)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            
             try
             {
                 var movie = await _serviceFavoriteMovie.GetByIdTmdbAsync(movieId);
                 if (movie is null)
                 {
-                    await _serviceFavoriteMovie.CreateAsync(movieId, priority);
+                    await _serviceFavoriteMovie.CreateAsync(movieId, priority, userId);
                 }
                 else
                 { 
@@ -87,6 +90,8 @@ namespace CineBucket.Controllers
         
         public async Task<IActionResult> FavMoviesList(int page = 1)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
             try
             {
                 var movies = await _serviceFavoriteMovie.GetAllAsync();
