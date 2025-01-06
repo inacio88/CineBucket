@@ -65,7 +65,7 @@ namespace CineBucket.Controllers
             
             try
             {
-                var movie = await _serviceFavoriteMovie.GetByIdTmdbAsync(movieId);
+                var movie = await _serviceFavoriteMovie.GetByIdTmdbAsync(movieId, userId);
                 if (movie is null)
                 {
                     await _serviceFavoriteMovie.CreateAsync(movieId, priority, userId);
@@ -73,6 +73,7 @@ namespace CineBucket.Controllers
                 else
                 { 
                     movie.Priority = priority;
+                    movie.UserId = userId;
                    var editMovie = await _serviceFavoriteMovie.UpdateByIdAsync(movie);
                    if(editMovie is null)
                        return RedirectToAction("Error", "Movies");
@@ -94,7 +95,7 @@ namespace CineBucket.Controllers
 
             try
             {
-                var movies = await _serviceFavoriteMovie.GetAllAsync();
+                var movies = await _serviceFavoriteMovie.GetAllAsync(userId);
                 if(movies is null)
                     return RedirectToAction("Error", "Movies");
 
@@ -109,9 +110,10 @@ namespace CineBucket.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int movieId)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             try
             {
-                var movie = await _serviceFavoriteMovie.DeleteByIdAsync(movieId);
+                var movie = await _serviceFavoriteMovie.DeleteByIdAsync(movieId, userId);
                 if (movie == null)
                 {
                     return RedirectToAction("Error", "Movies");
