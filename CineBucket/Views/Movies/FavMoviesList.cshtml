@@ -12,53 +12,56 @@
 
 @if (Model != null && Model.Count() > 0)
 {
-    <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Poster</th>
-            <th>Título</th>
-            <th>Adicionado em</th>
-            <th>Duração</th>
-            <th>Prioridade</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var mov in Model)
-            {
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td>
-                        @if (!string.IsNullOrEmpty(mov.PosterPath))
-                        {
-                            <img src="@($"{imageUrlBase}{mov.PosterPath}")" alt="@mov.Title" style="width: 100px; height: auto;" />
-                        }
-                        else
-                        {
-                            <span>Sem imagem</span>
-                        }
-                    </td>
-                    <td>@mov.Title</td>
-                    <td>
-                        @mov.AddedAt.ToString("dd/mm/yyyy")
-                    </td>
-                    @{
-                        int runtimeInMinutes = mov?.Runtime ?? 0;
-                        int hours = runtimeInMinutes / 60;
-                        int minutes = runtimeInMinutes % 60;
-                        <td>@($"{hours}h{minutes}m")</td>
-                    }
-                    <td>@mov?.Priority</td>
-                    <td>
-                        <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteModal" data-movie-id="@mov.Id">Remover da minha lista</button>
-                        <a href="@Url.Action("DetailFullMovie", new { movieId = mov.TmdbId })" class="btn btn-sm btn-warning mt-2 w-100 d-block">
-                            Detalhes
-                        </a>
-                    </td>
+                    <th>Poster</th>
+                    <th>Título</th>
+                    <th class="d-none d-md-table-cell">Adicionado em</th>
+                    <th class="d-none d-md-table-cell">Duração</th>
+                    <th>Prioridade</th>
+                    <th>Ações</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-
+            </thead>
+            <tbody>
+                @foreach (var mov in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (!string.IsNullOrEmpty(mov.PosterPath))
+                            {
+                                <img src="@($"{imageUrlBase}{mov.PosterPath}")" alt="@mov.Title" style="width: 80px; height: auto;" />
+                            }
+                            else
+                            {
+                                <span>Sem imagem</span>
+                            }
+                        </td>
+                        <td>@mov.Title</td>
+                        <td class="d-none d-md-table-cell">@mov.AddedAt.ToString("dd/MM/yyyy")</td>
+                        @{
+                            int runtimeInMinutes = mov?.Runtime ?? 0;
+                            int hours = runtimeInMinutes / 60;
+                            int minutes = runtimeInMinutes % 60;
+                        }
+                        <td class="d-none d-md-table-cell">@($"{hours}h{minutes}m")</td>
+                        <td>@mov?.Priority</td>
+                        <td>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-movie-id="@mov.Id">
+                                    Remover
+                                </button>
+                                <a href="@Url.Action("DetailFullMovie", new { movieId = mov.TmdbId })" class="btn btn-warning">
+                                    Detalhes
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 else
 {
