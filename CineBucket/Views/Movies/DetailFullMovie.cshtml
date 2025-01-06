@@ -25,7 +25,7 @@
             <p><strong>Status:</strong> @Model.Status</p>
             <p><strong>Idioma Original:</strong> @Model.OriginalLanguage</p>
             <p><strong>Data de Lançamento:</strong>
-                    @Model.ReleaseDate.ToString("dd/MM/yyyy")
+                @(Model.ReleaseDate?.ToString("dd/MM/yyyy") ?? "Data desconhecida")
             </p>
             <p><strong>Popularidade:</strong> @Model.Popularity</p>
             <p><strong>Avaliação:</strong> @Model.VoteAverage / 10 (@Model.VoteCount votos)</p>

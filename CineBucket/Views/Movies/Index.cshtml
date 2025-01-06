@@ -5,65 +5,68 @@
     string imageUrlBase = "https://image.tmdb.org/t/p/w200";
 }
 
-<div class="text-center">
-    <h1 class="display-4">@ViewData["Title"]</h1>
-</div>
-
-
-@if (Model != null && Model.Results.Count() > 0)
-{
-    <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Poster</th>
-            <th>Título</th>
-            <th>Sinopse</th>
-            <th>Lançamento</th>
-            <th>Favoritar</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var mov in Model.Results)
-            {
-                <tr>
-                    <td>
-                        @if (!string.IsNullOrEmpty(mov.PosterPath))
-                        {
-                            <img src="@($"{imageUrlBase}{mov.PosterPath}")" alt="@mov.Title" style="width: 100px; height: auto;" />
-                        }
-                        else
-                        {
-                            <span>Sem imagem</span>
-                        }
-                    </td>
-                    <td>@mov.Title</td>
-                    <td>@mov.Overview</td>
-                    <td>
-                        @mov.ReleaseDate.ToString("dd/MM/yyyy")
-                    </td>
-                    <td class="text-center">
-                        <a href="@Url.Action("DetailFullMovie", new { movieId = mov.Id })" class="btn btn-sm btn-outline-warning">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <div class="text-center">
-    @if (Model.Page > 1)
-        {
-            <a href="@Url.Action("Index", new { page = Model.Page - 1 })" class="btn btn-primary">Página Anterior</a>
-        }
-
-        @if (Model.Page < Model.TotalPages)
-        {
-            <a href="@Url.Action("Index", new { page = Model.Page + 1 })" class="btn btn-primary">Próxima Página</a>
-        }
+<div class="container-fluid">
+    <div class="text-center mb-4">
+        <h1 class="display-4">@ViewData["Title"]</h1>
     </div>
-}
-else
-{
-    <p>Lista vazia.</p>
-}
+
+    @if (Model != null && Model.Results.Count() > 0)
+    {
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Poster</th>
+                    <th>Título</th>
+                    <th class="d-none d-md-table-cell">Sinopse</th>
+                    <th class="d-none d-md-table-cell">Lançamento</th>
+                    <th>Favoritar</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var mov in Model.Results)
+                {
+                    <tr>
+                        <td>
+                            @if (!string.IsNullOrEmpty(mov.PosterPath))
+                            {
+                                <img src="@($"{imageUrlBase}{mov.PosterPath}")" alt="@mov.Title" class="img-fluid d-block mx-auto" style="max-width: 100px;" />
+                            }
+                            else
+                            {
+                                <span>Sem imagem</span>
+                            }
+                        </td>
+                        <td>@mov.Title</td>
+                        <td class="d-none d-md-table-cell">@mov.Overview</td>
+                        <td class="d-none d-md-table-cell">
+                            @(mov.ReleaseDate?.ToString("dd/MM/yyyy") ?? "Data desconhecida")
+                        </td>
+                        <td class="text-center">
+                            <a href="@Url.Action("DetailFullMovie", new { movieId = mov.Id })" class="btn btn-warning w-100">
+                                <i class="fa fa-star" aria-hidden="true"></i> Favoritar
+                            </a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-3">
+            @if (Model.Page > 1)
+            {
+                <a href="@Url.Action("Index", new { page = Model.Page - 1 })" class="btn btn-primary">Página Anterior</a>
+            }
+
+            @if (Model.Page < Model.TotalPages)
+            {
+                <a href="@Url.Action("Index", new { page = Model.Page + 1 })" class="btn btn-primary">Próxima Página</a>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-center">Lista vazia.</p>
+    }
+</div>
